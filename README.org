@@ -1,0 +1,98 @@
+* ESPHome NEM Price Component
+
+This custom ESPHome component fetches the latest National Electricity Market
+(NEM) prices in real-time and exposes them as sensors within ESPHome.
+
+** Features
+- Retrieves NEM price data from a configured API.
+- Exposes the price as a sensor in ESPHome.
+- Configurable update interval.
+- Easy integration with Home Assistant.
+
+** Installation
+
+*** Prerequisites
+- **ESPHome** version 2021.6 or later.
+- A running Home Assistant instance (optional but recommended).
+- A valid API endpoint for retrieving NEM price data (pre-configured).
+
+*** Setup
+
+1. **Download the Component:**
+
+   Clone the repository into your ESPHome configuration directory:
+   #+BEGIN_SRC bash
+   git clone git@github.com:PaulSchulz/esphome-nem-price.git
+   #+END_SRC
+
+1. **Use with ESPHome:**
+
+   In your `esphome.yaml` configuration, include the component like this:
+
+   #+BEGIN_SRC yaml
+   external_components:
+     - source: git@github.com:PaulSchulz/esphome-nem-price.git
+       name: nem_price_sensor
+   #+END_SRC
+
+3. **Configure the Sensor:**
+
+   Add a sensor configuration in your ESPHome YAML file to expose the NEM price:
+
+   #+BEGIN_SRC yaml
+   sensor:
+     - platform: nem_price_sensor
+       name: "NEM Price"
+       api_url: "http://your-api-url.com"  # Replace with your actual API endpoint
+       update_interval: 60s  # Update interval (optional, default is 60 seconds)
+   #+END_SRC
+
+4. **Upload and Restart:**
+
+   After saving your YAML configuration, upload the configuration to your ESP device using the ESPHome dashboard or the command line:
+
+   #+BEGIN_SRC bash
+   esphome your_device.yaml run
+   #+END_SRC
+
+   This will upload the configuration and restart your device.
+
+** Configuration Options
+
+- `api_url`: The URL of the API endpoint providing NEM price data.
+- `update_interval`: How often the sensor data should be refreshed (default: 60 seconds).
+
+** Example Configuration
+
+#+BEGIN_SRC yaml
+esphome:
+  name: nem-price-sensor
+  platform: ESP32
+  board: esp32dev
+
+external_components:
+  - source: git@github.com:PaulSchulz/esphome-nem-price.git
+    name: nem_price_sensor
+
+sensor:
+  - platform: nem_price_sensor
+    name: "NEM Price"
+    api_url: "http://your-api-url.com"
+    update_interval: 120s
+#+END_SRC
+
+** Troubleshooting
+
+- If the NEM price is not updating, check that the API endpoint is correct and
+  accessible.
+- Ensure your ESPHome device is connected to the internet and able to make
+  requests to the API endpoint.
+
+** Contributing
+
+Contributions are welcome! Please fork the repository, create a new branch, and
+submit a pull request with your changes.
+
+** License
+
+This project is licensed under the MIT License.
